@@ -1,12 +1,12 @@
 import styled from "styled-components";
 
 export const TableUsers = styled.table`
-border-collapse: collapse;
-border-radius: 10px 10px 0px 0px;
-margin-top: 15px;
 background-color: white;
-text-align: left;
+border-collapse: collapse;
+border-radius: 10px 10px 10px 10px;
+margin-top: 3px;
 overflow: hidden;
+text-align: left;
 width: 80%;
 `
 export const Thead = styled.thead`
@@ -24,9 +24,17 @@ export const Td = styled.td`
 border: 1px solid;
 border-style: inset;
 padding: 15px;
+&:nth-child(6){
+    padding: 0;
+}
+`
+export const Button = styled.button`
+background-color: transparent;
+border: none;
+font-size: 35px;
+color: #7faee3;
 `
 
 export const Tfoot = styled.tfoot`
-padding: 15px;
 text-align:end;
 `

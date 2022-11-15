@@ -1,8 +1,55 @@
 import React from 'react'
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
-import { TableUsers, Tbody, Td, Tfoot, Th, Thead } from './styles'
+import Swal from 'sweetalert2'
+import { types } from '../../reducer/types';
+import { Pagination } from '../pagination/Pagination';
+import { RenderIf } from '../renderIf/RenderIf';
+import { Button, TableUsers, Tbody, Td, Tfoot, Th, Thead } from './styles'
 
-export const Table = () => {
+
+
+export const Table = React.memo(({ listUsers, dispatch, setModalSettings }) => {
+
+    const isLoading = false;
+    console.log("Render Table")
+    console.log(listUsers)
+
+    const handleEdit = (idUser) => {
+
+        const dataUser = listUsers.find(user => user.id === idUser)
+        setModalSettings({
+            show: true,
+            user: {
+                idUser,
+                name: dataUser.name,
+                username: dataUser.username,
+                email: dataUser.email,
+                website: dataUser.website
+            }
+        })
+    }
+
+    const handleDelete = async (idUser) => {
+        const { isConfirmed } = await Swal.fire({
+            title: 'Confirmación!',
+            text: '¿Seguro que desea borrar este registro?',
+            icon: 'warning',
+            confirmButtonText: 'Si, borrar',
+            showCancelButton: true,
+
+        })
+
+        if (!isConfirmed) return;
+
+        const accion = {
+            type: types.deletUser,
+            payload: { idUser }
+        }
+
+        dispatch(accion);
+
+    }
+
     return (
         <TableUsers>
             <Thead>
@@ -17,23 +64,33 @@ export const Table = () => {
             </Thead>
 
             <Tbody>
-                <tr>
-                    <Td>Leanne Graham</Td>
-                    <Td>Bret</Td>
-                    <Td>Sincere@april.bi</Td>
-                    <Td>Kulas Lighti</Td>
-                    <Td>hildegard.org</Td>
-                    <Td>
-                        <FaTrashAlt style={{ width: "50%" }} />
-                        <FaEdit style={{ width: "50%" }} />
-                    </Td>
-                </tr>
+                <RenderIf isTrue={isLoading}>
+                    <tr><td colSpan={6}>Cargando...</td></tr>
+                </RenderIf>
+                <RenderIf isTrue={!isLoading}>
+                    {
+                        listUsers.map((user) => <tr key={user.id}>
+                            <Td>{user.name}</Td>
+                            <Td>{user.username}</Td>
+                            <Td>{user.email}</Td>
+                            <Td>{user.address.street} {user.address.suite} {user.address.city} {user.address.zipcode}</Td>
+                            <Td>{user.website}</Td>
+                            <Td>
+                                <Button onClick={() => handleDelete(user.id)} ><FaTrashAlt style={{ width: "50%" }} /></Button>
+                                <Button onClick={() => handleEdit(user.id)} ><FaEdit style={{ width: "50%" }} /></Button>
+                            </Td>
+                        </tr>)
+                    }
+
+                </RenderIf>
             </Tbody>
             <Tfoot>
-               <tr>
-                <th colSpan={6}>Paginación</th>
-               </tr>
+                <tr>
+                    <th colSpan={6}>
+                        <Pagination></Pagination>
+                    </th>
+                </tr>
             </Tfoot>
         </TableUsers>
     )
-}
+})

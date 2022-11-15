@@ -2,8 +2,51 @@ import styled from "styled-components";
 
 export const ContenedorSearch = styled.div`
 border-collapse: collapse;
-background-color: white;
-width: 80%;
 display: flex;
 justify-content: space-between;
+width: 80%;
 `
+export const Title = styled.h4`
+margin-top: 20px;
+`
+export const WrapperSearch = styled.div`
+display: flex;
+justify-content: end;
+position: relative;
+width: 40%;
+.icon-search{
+    color: #191919;
+	position: absolute;
+	right: 18%;
+	top: 25%;
+}
+`
+
+export const InputSearch = styled.input`
+border: 1px solid #ccc;
+border-radius: 30px;
+font-size: 18px;
+height: 45px;
+margin-bottom: 20px;
+padding-left: 15px;
+width: 70%;
+    &:focus {
+        box-shadow: 0px 0px 25px 0px rgba(194,194,194,1);
+        outline: 0 none;
+    }
+`
+
+export const ButtonExport = styled.button`
+background-color: #7faee3;
+border: 0;
+border-radius: 50px;
+color: white;
+height: 50px;
+margin-left: 10px;
+width: 50px;
+&:hover {
+        box-shadow: 0px 0px 25px 0px rgba(194,194,194,1);
+    }
+
+`
+

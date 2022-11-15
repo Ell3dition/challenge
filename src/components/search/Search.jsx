@@ -1,15 +1,17 @@
 import React from 'react'
-import { FaFileExcel } from "react-icons/fa";
-import { ContenedorSearch } from './styles';
+import { FaFileExcel, FaSearch } from "react-icons/fa";
+import { ButtonExport, ContenedorSearch, InputSearch, Title, WrapperSearch } from './styles';
 
-export const Search = () => {
+export const Search = React.memo(() => {
+  console.log("Render Search")
   return (
     <ContenedorSearch>
-      <h4>Usuarios</h4>
-      <div>
-        <input type="text" />
-        <button><FaFileExcel /></button>
-      </div>
+      <Title>Usuarios</Title>
+      <WrapperSearch>
+        <InputSearch type="text" placeholder='Buscar...' />
+        <FaSearch className='icon-search'></FaSearch>
+        <ButtonExport><FaFileExcel /></ButtonExport>
+      </WrapperSearch>
     </ContenedorSearch>
   )
-}
+})
