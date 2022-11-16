@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useForm } from '../../hooks/useForm';
 import { useGetFetch } from '../../hooks/useGetFetch';
 import { ModalEdit } from '../modalEdit/ModalEdit';
 import { RenderIf } from '../renderIf/RenderIf';
@@ -13,23 +14,51 @@ export const Main = () => {
   const [editModalSettings, setModalSettings] = useState({
     show: false,
     user: {
-      idUser:null,
+      idUser: null,
       name: null,
       username: null,
       email: null,
       website: null
-  }
+    }
   });
+
+  const [searchValue, handleInputChage] = useForm({
+    inputSearch: ""
+  });
+
+
+  //filter users by name property
+  let filteredUserList = [];
+  if (searchValue.inputSearch.length > 0) {
+    filteredUserList = data.filter(user => {
+      const lowercaseName = user.name.toLowerCase()
+      return lowercaseName.includes(searchValue.inputSearch)
+    })
+  } else {
+    filteredUserList = data
+  }
+
 
   return (
     <Container className="mt-5">
       <Row>
-        <Search></Search>
-        <Table listUsers={data} dispatch={dispatch} setModalSettings={setModalSettings} />
+        <Search
+          handleInputChage={handleInputChage}
+          searchValue={searchValue}
+        />
+
+        <Table
+          dispatch={dispatch}
+          listUsers={filteredUserList}
+          setModalSettings={setModalSettings}
+        />
       </Row>
 
       <RenderIf isTrue={editModalSettings.show}>
-        <ModalEdit editModalSettings={editModalSettings} dispatch={dispatch} setModalSettings={setModalSettings} />
+        <ModalEdit
+          dispatch={dispatch}
+          editModalSettings={editModalSettings}
+          setModalSettings={setModalSettings} />
       </RenderIf>
 
     </Container>

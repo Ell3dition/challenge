@@ -1,10 +1,11 @@
 import React from 'react'
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import Swal from 'sweetalert2'
+import { validateExistenceOfLetterInName } from '../../helpers/validateExistenceOfLetterInName';
 import { types } from '../../reducer/types';
 import { Pagination } from '../pagination/Pagination';
 import { RenderIf } from '../renderIf/RenderIf';
-import { Button, TableUsers, Tbody, Td, Tfoot, Th, Thead } from './styles'
+import { Button, TableUsers, Tbody, Td, Tfoot, Th, Thead, TrBody } from './styles'
 
 
 
@@ -69,17 +70,17 @@ export const Table = React.memo(({ listUsers, dispatch, setModalSettings }) => {
                 </RenderIf>
                 <RenderIf isTrue={!isLoading}>
                     {
-                        listUsers.map((user) => <tr key={user.id}>
+                        listUsers.map((user) => <TrBody key={user.id} isDiferent={validateExistenceOfLetterInName(user.name)} >
                             <Td>{user.name}</Td>
                             <Td>{user.username}</Td>
                             <Td>{user.email}</Td>
-                            <Td>{user.address.street} {user.address.suite} {user.address.city} {user.address.zipcode}</Td>
+                            <Td>{user.address}</Td>
                             <Td>{user.website}</Td>
                             <Td>
                                 <Button onClick={() => handleDelete(user.id)} ><FaTrashAlt style={{ width: "50%" }} /></Button>
                                 <Button onClick={() => handleEdit(user.id)} ><FaEdit style={{ width: "50%" }} /></Button>
                             </Td>
-                        </tr>)
+                        </TrBody>)
                     }
 
                 </RenderIf>
@@ -87,7 +88,7 @@ export const Table = React.memo(({ listUsers, dispatch, setModalSettings }) => {
             <Tfoot>
                 <tr>
                     <th colSpan={6}>
-                        <Pagination></Pagination>
+                        <Pagination listUsers={listUsers}></Pagination>
                     </th>
                 </tr>
             </Tfoot>

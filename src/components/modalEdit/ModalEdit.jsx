@@ -12,7 +12,7 @@ const emptyUser = {
 }
 
 export const ModalEdit = ({ editModalSettings, dispatch, setModalSettings }) => {
-
+    console.log("render Modal Edit")
     const userInformation = editModalSettings.user;
 
     const [values, handleInputChange, resetForm] = useForm({

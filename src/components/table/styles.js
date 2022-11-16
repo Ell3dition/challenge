@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { globalStyles } from "../../globalStyles/globalStyles";
 
 export const TableUsers = styled.table`
 background-color: white;
@@ -10,7 +11,7 @@ text-align: left;
 width: 80%;
 `
 export const Thead = styled.thead`
-background-color: #7faee3;
+background-color: ${globalStyles.mainColor};
 color: white;
 `
 
@@ -20,6 +21,32 @@ padding: 15px;
 export const Tbody = styled.tbody`
 color: gray;
 `
+
+export const TrBody = styled.tr`
+background-color: ${props => {
+        console.log(props.isDiferent)
+        if (props.isDiferent) return globalStyles.trConditionalColor
+        return "transparent"
+    }};
+color: ${props => {
+        console.log(props.isDiferent)
+        if (props.isDiferent) return globalStyles.btnConditionalColor
+        return "#7faee3"
+    }};
+
+td:nth-child(6) button{
+color: ${props => {
+        console.log(props.isDiferent)
+        if (props.isDiferent) return "white"
+        return globalStyles.mainColor
+    }};
+}
+&:hover{
+    background-color: ${globalStyles.hoverTrColor};
+    color: ${globalStyles.hoverLetterColor};
+}
+`
+
 export const Td = styled.td`
 border: 1px solid;
 border-style: inset;
@@ -32,7 +59,6 @@ export const Button = styled.button`
 background-color: transparent;
 border: none;
 font-size: 35px;
-color: #7faee3;
 `
 
 export const Tfoot = styled.tfoot`

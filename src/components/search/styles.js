@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { globalStyles } from "../../globalStyles/globalStyles";
 
 export const ContenedorSearch = styled.div`
 border-collapse: collapse;
@@ -8,6 +9,7 @@ width: 80%;
 `
 export const Title = styled.h4`
 margin-top: 20px;
+color: ${globalStyles.titleColor};
 `
 export const WrapperSearch = styled.div`
 display: flex;
@@ -15,9 +17,9 @@ justify-content: end;
 position: relative;
 width: 40%;
 .icon-search{
-    color: #191919;
+    color: ${globalStyles.mainColor};
 	position: absolute;
-	right: 18%;
+	right: 20%;
 	top: 25%;
 }
 `
@@ -37,7 +39,7 @@ width: 70%;
 `
 
 export const ButtonExport = styled.button`
-background-color: #7faee3;
+background-color: ${globalStyles.btnExportColor};
 border: 0;
 border-radius: 50px;
 color: white;

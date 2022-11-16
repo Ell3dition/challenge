@@ -4,12 +4,17 @@ import { types } from "./types";
 export const listUsersReducer = (state = [], action) => {
     switch (action.type) {
         case types.getUsers:
-            return [...action.payload].sort((a, b) => orderAlphabetically(a, b))
-        case types.deletUser:
-            return state.filter((user) => user.id !== action.payload.idUser).sort((a, b) => orderAlphabetically(a, b))
-        case types.editUser:
+            const listUsers = [...action.payload]
+            const orderedListUsers = listUsers.sort((a, b) => orderAlphabetically(a, b))
+            return orderedListUsers
 
-            return state.map((user) => {
+        case types.deletUser:
+            const newListUsers = state.filter((user) => user.id !== action.payload.idUser)
+            const newOrderedListUsers = newListUsers.sort((a, b) => orderAlphabetically(a, b))
+            return newOrderedListUsers
+
+        case types.editUser:
+            const listWithModifiedUser = state.map((user) => {
                 if (user.id === action.payload.idUser) {
                     return {
                         ...user,
@@ -21,8 +26,9 @@ export const listUsersReducer = (state = [], action) => {
                 }
                 return user;
 
-            }).sort((a, b) => orderAlphabetically(a, b));
-
+            })
+            const sortedListWithModifiedUser = listWithModifiedUser.sort((a, b) => orderAlphabetically(a, b));
+            return sortedListWithModifiedUser
         default:
             return state;
     }

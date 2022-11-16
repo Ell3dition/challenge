@@ -9,9 +9,18 @@ export const useGetFetch = (url) => {
     const getFetch = async () => {
         const response = await fetch(url);
         const data = await response.json();
+
+        const formatData = data.map(user => ({
+            id: user.id,
+            name: user.name,
+            username: user.username,
+            email: user.email,
+            address: `${user.address.street} ${user.address.suite} ${user.address.city} ${user.address.zipcode}`,
+            website: user.website
+        }))
         const accion = {
             type: types.getUsers,
-            payload: data
+            payload: formatData
         }
         dispatch(accion)
     };
