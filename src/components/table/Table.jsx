@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import Swal from 'sweetalert2'
 import { validateExistenceOfLetterInName } from '../../helpers/validateExistenceOfLetterInName';
@@ -7,13 +7,44 @@ import { Pagination } from '../pagination/Pagination';
 import { RenderIf } from '../renderIf/RenderIf';
 import { Button, TableUsers, Tbody, Td, Tfoot, Th, Thead, TrBody } from './styles'
 
-
+const USER_PER_PAGE = 3;
 
 export const Table = React.memo(({ listUsers, dispatch, setModalSettings }) => {
 
-    const isLoading = false;
-    console.log("Render Table")
-    console.log(listUsers)
+   
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(0);
+    const [listPagination, setListPagination] = useState([]);
+
+    useEffect(() => {
+        setTotalPages(Math.ceil(listUsers.length / USER_PER_PAGE))
+    }, [listUsers])
+
+    useEffect(() => {
+        if (listUsers.length > 0) {
+            handlePagination();
+        } else {
+            setListPagination([])
+        }
+    }, [currentPage, listUsers])
+
+
+    const handlePagination = () => {
+
+        let initPagination = (currentPage - 1) * USER_PER_PAGE
+        let count = 0
+        let newList = []
+        while (count < USER_PER_PAGE) {
+            const user = listUsers.find((user) => user.position === initPagination)
+          
+            if (typeof user != "undefined") {
+                newList.push(user)
+            }
+            initPagination++
+            count++
+        }
+        setListPagination(newList)
+    }
 
     const handleEdit = (idUser) => {
 
@@ -65,12 +96,12 @@ export const Table = React.memo(({ listUsers, dispatch, setModalSettings }) => {
             </Thead>
 
             <Tbody>
-                <RenderIf isTrue={isLoading}>
-                    <tr><td colSpan={6}>Cargando...</td></tr>
+                <RenderIf isTrue={listPagination.length === 0}>
+                    <tr><Td colSpan={6} >Sin registros ...</Td></tr>
                 </RenderIf>
-                <RenderIf isTrue={!isLoading}>
+                <RenderIf isTrue={listPagination.length > 0}>
                     {
-                        listUsers.map((user) => <TrBody key={user.id} isDiferent={validateExistenceOfLetterInName(user.name)} >
+                        listPagination.map((user) => <TrBody key={user.id} isDiferent={validateExistenceOfLetterInName(user.name)} >
                             <Td>{user.name}</Td>
                             <Td>{user.username}</Td>
                             <Td>{user.email}</Td>
@@ -82,13 +113,22 @@ export const Table = React.memo(({ listUsers, dispatch, setModalSettings }) => {
                             </Td>
                         </TrBody>)
                     }
-
                 </RenderIf>
+
             </Tbody>
             <Tfoot>
                 <tr>
-                    <th colSpan={6}>
-                        <Pagination listUsers={listUsers}></Pagination>
+                    <th colSpan={3}>
+                        <span>Motrando {listPagination.length} de {listUsers.length} Registros</span>
+                    </th>
+                    <th colSpan={3}>
+                        <Pagination
+                            listUsers={listUsers}
+                            setCurrentPage={setCurrentPage}
+                            currentPage={currentPage}
+                            totalPages={totalPages}
+
+                        />
                     </th>
                 </tr>
             </Tfoot>

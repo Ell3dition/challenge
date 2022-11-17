@@ -24,19 +24,16 @@ color: gray;
 
 export const TrBody = styled.tr`
 background-color: ${props => {
-        console.log(props.isDiferent)
         if (props.isDiferent) return globalStyles.trConditionalColor
         return "transparent"
     }};
 color: ${props => {
-        console.log(props.isDiferent)
         if (props.isDiferent) return globalStyles.btnConditionalColor
         return "#7faee3"
     }};
 
 td:nth-child(6) button{
 color: ${props => {
-        console.log(props.isDiferent)
         if (props.isDiferent) return "white"
         return globalStyles.mainColor
     }};
@@ -63,4 +60,7 @@ font-size: 35px;
 
 export const Tfoot = styled.tfoot`
 text-align:end;
+& span {
+    color: "#7faee3";
+}
 `

@@ -6,12 +6,15 @@ export const listUsersReducer = (state = [], action) => {
         case types.getUsers:
             const listUsers = [...action.payload]
             const orderedListUsers = listUsers.sort((a, b) => orderAlphabetically(a, b))
-            return orderedListUsers
+            const listAddPositionProperty = orderedListUsers.map((user, index) => ({ ...user, position: (index) }))
+            return listAddPositionProperty
 
         case types.deletUser:
             const newListUsers = state.filter((user) => user.id !== action.payload.idUser)
             const newOrderedListUsers = newListUsers.sort((a, b) => orderAlphabetically(a, b))
-            return newOrderedListUsers
+            const newPositionProperty = newOrderedListUsers.map((user, index) => ({ ...user, position: (index) }))
+            return newPositionProperty
+
 
         case types.editUser:
             const listWithModifiedUser = state.map((user) => {
@@ -28,7 +31,9 @@ export const listUsersReducer = (state = [], action) => {
 
             })
             const sortedListWithModifiedUser = listWithModifiedUser.sort((a, b) => orderAlphabetically(a, b));
-            return sortedListWithModifiedUser
+            const newListPositionProperty = sortedListWithModifiedUser.map((user, index) => ({ ...user, position: (index) }))
+            return newListPositionProperty
+
         default:
             return state;
     }

@@ -3,7 +3,7 @@ import { Button, Form, Modal } from 'react-bootstrap'
 import { useForm } from '../../hooks/useForm';
 import { types } from '../../reducer/types';
 
-const emptyUser = {
+const EMPTY_USER = {
     idUser: null,
     name: null,
     username: null,
@@ -12,10 +12,10 @@ const emptyUser = {
 }
 
 export const ModalEdit = ({ editModalSettings, dispatch, setModalSettings }) => {
-    console.log("render Modal Edit")
+    
     const userInformation = editModalSettings.user;
 
-    const [values, handleInputChange, resetForm] = useForm({
+    const [values, handleInputChange] = useForm({
         name: userInformation.name,
         username: userInformation.username,
         email: userInformation.email,
@@ -42,7 +42,7 @@ export const ModalEdit = ({ editModalSettings, dispatch, setModalSettings }) => 
 
     const handleClose = () => setModalSettings({
         show: false,
-        user: emptyUser
+        user: EMPTY_USER
     });
 
 

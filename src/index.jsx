@@ -6,8 +6,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <Main/>
-  // <React.StrictMode>
-  //   <Main/>
-  // </React.StrictMode>
+
+  <React.StrictMode>
+    <Main />
+  </React.StrictMode>
 );

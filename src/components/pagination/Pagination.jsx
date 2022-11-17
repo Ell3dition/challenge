@@ -1,20 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { ButtonPagination, ContainerPagination, Li, Ul } from './styles'
 
-const USER_PER_PAGE = 4;
 
-export const Pagination = ({ listUsers }) => {
-    console.log("Render Pagination")
 
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(0);
-
-    const initPagination = currentPage * USER_PER_PAGE
-
-    useEffect(() => {
-        setTotalPages(Math.ceil(listUsers.length / USER_PER_PAGE))
-    }, [listUsers])
-
+export const Pagination = ({  setCurrentPage, currentPage, totalPages}) => {
 
     const handleStartAgain = () => setCurrentPage(1);
 
